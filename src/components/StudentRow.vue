@@ -41,4 +41,15 @@ const notifyArrivedOrLeft = (studentModified) => {
 </template>
 
 <style scoped>
+
+.present {
+    color: gray;
+    font-style: italic;
+}
+
+.absent {
+    color: black;
+    font-weight: bold;
+}
+
 </style>

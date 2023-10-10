@@ -58,15 +58,4 @@ th, td {
     text-align: center;
 }
 
-
-.present {
-    color: gray;
-    font-style: italic;
-}
-
-.absent {
-    color: black;
-    font-weight: bold;
-}
-
 </style>

@@ -14,18 +14,15 @@ export const useStudentStore = defineStore('students', () => {
         studentList.value.push(student)
     }
 
-
     function deleteStudent(studentToDelete) {
         studentList.value = studentList.value.filter( (student) => {
             return studentToDelete != student
         })
     }
 
-
     function arrivedOrLeft(student) {
         mostRecentStudent.value = student
     }
-
 
     const sortedStudents = computed( () => {
         return studentList.value.toSorted( (s1, s2) => {
@@ -53,5 +50,5 @@ export const useStudentStore = defineStore('students', () => {
         arrivedOrLeft, 
         sortedStudents
     }
-    
+
 })
