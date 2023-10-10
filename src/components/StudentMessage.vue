@@ -1,9 +1,5 @@
 <script setup>
 
-// defineProps({
-//     mostRecentStudent: Object
-// })
-
 import { useStudentStore } from '../stores/StudentStore.js'
 import { storeToRefs } from 'pinia'
 

@@ -1,6 +1,6 @@
 <script setup>
 
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits } from 'vue'
 
 const emit = defineEmits(['delete-student', 'arrived-or-left'])
 

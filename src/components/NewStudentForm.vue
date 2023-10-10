@@ -2,7 +2,7 @@
 
 import { ref } from 'vue'
 
-import { useStudentStore } from '../stores/StudentStore';
+import { useStudentStore } from '../stores/StudentStore'
 
 const studentStore = useStudentStore() 
 
