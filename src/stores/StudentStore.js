@@ -14,24 +14,18 @@ export const useStudentStore = defineStore('students', () => {
         studentList.value.push(student)
     }
 
+
     function deleteStudent(studentToDelete) {
         studentList.value = studentList.value.filter( (student) => {
             return studentToDelete != student
         })
     }
 
+
     function arrivedOrLeft(student) {
-        // Write this as a general update student function - find the student by star ID and replace
-        let studentToModifyIndex = studentList.value.findIndex( (s) => { 
-            return s.starID == student.starID
-        } )
-        if (studentToModifyIndex != -1) {
-            studentList.value[studentToModifyIndex] = student
-            mostRecentStudent.value = student
-        } else {
-            console.log(student, 'Not found')
-        }
+        mostRecentStudent.value = student
     }
+
 
     const sortedStudents = computed( () => {
         return studentList.value.toSorted( (s1, s2) => {
@@ -51,5 +45,13 @@ export const useStudentStore = defineStore('students', () => {
         })
     })
 
-    return { studentList, mostRecentStudent, addNewStudent, deleteStudent, arrivedOrLeft, sortedStudents}
+    return { 
+        studentList, 
+        mostRecentStudent, 
+        addNewStudent, 
+        deleteStudent, 
+        arrivedOrLeft, 
+        sortedStudents
+    }
+    
 })

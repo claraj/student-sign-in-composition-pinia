@@ -1,28 +1,15 @@
 <script setup>
 
-import { defineEmits } from 'vue'
+import StudentRow from './StudentRow.vue'
+
 import { storeToRefs } from 'pinia' 
-
 import { useStudentStore } from '../stores/StudentStore.js'
-
-// const emit = defineEmits([ 'arrived-or-left' ])
 
 const studentStore = useStudentStore()
 
 const { sortedStudents } = storeToRefs(studentStore)
 
 const { arrivedOrLeft, deleteStudent } = studentStore
-
-const confirmThenDeleteStudent = (studentToDelete) => {
-    if (confirm(`Delete ${studentToDelete.name}?`)) {
-        deleteStudent(studentToDelete)
-    }
-}
-
-const notifyArrivedOrLeft = (student) => {
-    arrivedOrLeft(student)  // update store
-    // emit('arrived-or-left', student)  // notify parent
-}
 
 </script>
 
@@ -42,20 +29,15 @@ const notifyArrivedOrLeft = (student) => {
             </thead>
 
             <tbody>
-                <tr v-for="student in sortedStudents" v-bind:key="student.starID" class="align-middle" v-bind:class="{ present: student.present, absent: !student.present }">
-                    <td>{{ student.name }}</td>
-                    <td>{{ student.starID }}</td>
-                    <td> 
-                        <input type="checkbox" v-model="student.present" v-on:change="notifyArrivedOrLeft(student)">
-                        <span class="mx-3" v-if="student.present">Here!</span>
-                        <span class="mx-3" v-else>Not present</span>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" v-on:click="confirmThenDeleteStudent(student)">
-                            <i class="bi bi-trash-fill"></i> Delete
-                        </button>
-                    </td>
-                </tr>
+
+                <StudentRow 
+                    v-for="student in sortedStudents" 
+                    v-bind:key="student.starID"
+                    v-bind:student="student" 
+                    v-on:delete-student="deleteStudent"
+                    v-on:arrived-or-left="arrivedOrLeft">       
+                </StudentRow>
+
             </tbody>
         </table>
     </div>
