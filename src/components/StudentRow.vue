@@ -1,6 +1,6 @@
 <script setup>
 
-// import { defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 
 const emit = defineEmits(['delete-student', 'arrived-or-left'])
 
@@ -9,18 +9,18 @@ import { useStudentStore } from '../stores/StudentStore.js'
 
 // stuck with props - need some way 
 // to tell this component which 
-// student it is displaying, 
+// student it is displaying. 
 
 const props = defineProps({
-    // student: Object,
-    starID1234: String
+    starID: String
 })
+
 
 const studentStore = useStudentStore()
 const { getStudentByStarId } = storeToRefs(studentStore)
 
-console.log(props.student)
-const student = getStudentByStarId.value(props.starID1234)
+// this seems hacky, check 
+const student = ref(getStudentByStarId.value(props.starID))
 
 
 const confirmThenDeleteStudent = (studentToDelete) => {
@@ -38,12 +38,15 @@ const notifyArrivedOrLeft = (studentModified) => {
 
 <template>
 
+<!-- less hacky in the template  -->
+    <!-- {{  getStudentByStarId(studentStarID) }} -->
+
     <tr class="align-middle" v-bind:class="{ present: student.present, absent: !student.present }">
 
     <td>{{ student.name }} </td>
     <td>{{ student.starID }}</td>
     <td> 
-        <input type="checkbox" v-bind="student.present" v-on:change="notifyArrivedOrLeft(student)">
+        <input type="checkbox" v-model="student.present" v-on:change="notifyArrivedOrLeft(student)">
         <span class="mx-3" v-if="student.present">Here!</span>
         <span class="mx-3" v-else>Not present</span>
     </td>

@@ -12,9 +12,10 @@ export const useStudentStore = defineStore('students', () => {
 
     const getStudentByStarId = computed( () => {
         return (starID) => {
-            return studentList.value.find( student => {
-                console.log('find?????', student, starID)
-                return student.starID == starID})
+            const foundStudent = studentList.value.find( student => {
+                return student.starID === starID
+            })
+            return foundStudent
         } 
 
     })
@@ -30,13 +31,21 @@ export const useStudentStore = defineStore('students', () => {
     }
 
     function arrivedOrLeft(student) {
-        mostRecentStudent.value = student
+        const studentToModifyIndex = studentList.value.findIndex(s => s.starID == student.starID)
+        if (studentToModifyIndex != -1) {
+            mostRecentStudent.value = student
+            studentList.value.splice(studentToModifyIndex, 1, student)
+        }
     }
 
     const sortedStudents = computed( () => {
         return studentList.value.toSorted( (s1, s2) => {
            return s1.name.localeCompare(s2.name)
         })
+    })
+
+    const studentCount = computed( () => {
+        return studentList.value.length
     })
 
     return { 
@@ -46,7 +55,8 @@ export const useStudentStore = defineStore('students', () => {
         deleteStudent, 
         arrivedOrLeft, 
         sortedStudents,
-        getStudentByStarId
+        getStudentByStarId,
+        studentCount
     }
 
 })
