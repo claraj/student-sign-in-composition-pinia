@@ -7,6 +7,7 @@ import { useStudentStore } from '../stores/StudentStore.js'
 
 const studentStore = useStudentStore()
 
+// reactive
 const { sortedStudents } = storeToRefs(studentStore)
 
 const { arrivedOrLeft, deleteStudent } = studentStore
@@ -30,10 +31,12 @@ const { arrivedOrLeft, deleteStudent } = studentStore
 
             <tbody>
 
+                <!-- v-bind:student="student"  -->
                 <StudentRow 
                     v-for="student in sortedStudents" 
                     v-bind:key="student.starID"
-                    v-bind:student="student" 
+                    
+                    v-bind:starID1234="student.starID"
                     v-on:delete-student="deleteStudent"
                     v-on:arrived-or-left="arrivedOrLeft">       
                 </StudentRow>
