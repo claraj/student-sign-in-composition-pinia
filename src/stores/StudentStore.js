@@ -21,24 +21,16 @@ export const useStudentStore = defineStore('students', () => {
     }
 
     function arrivedOrLeft(student) {
-        mostRecentStudent.value = student
+        const studentToModifyIndex = studentList.value.findIndex(s => s.starID == student.starID)
+        if (studentToModifyIndex != -1) {
+            mostRecentStudent.value = student
+            studentList.value.splice(studentToModifyIndex, 1, student)
+        }
     }
 
     const sortedStudents = computed( () => {
         return studentList.value.toSorted( (s1, s2) => {
-            // return positive number if s1 should be sorted after s2
-            if (s1.name.toUpperCase() > s2.name.toUpperCase()) {
-                return 1
-            }
-
-            // return negative number if s1 should be sorted before s2
-            if (s1.name.toUpperCase() < s2.name.toUpperCase()) {
-                return -1
-            }
-
-            // return 0 if order is equivalent, names are the same
-            // optional - if names are the same, sort by starId
-            return 0
+            return s1.name.localeCompare(s2.name)
         })
     })
 

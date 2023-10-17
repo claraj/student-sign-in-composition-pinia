@@ -5,11 +5,18 @@ import StudentRow from './StudentRow.vue'
 import { storeToRefs } from 'pinia' 
 import { useStudentStore } from '../stores/StudentStore.js'
 
+
 const studentStore = useStudentStore()
 
 const { sortedStudents } = storeToRefs(studentStore)
 
-const { arrivedOrLeft, deleteStudent } = studentStore
+const arrivedOrLeft = (student) => {
+    studentStore.arrivedOrLeft(student)
+}
+
+const deleteStudent = (student) => {
+    studentStore.deleteStudent(student)
+}
 
 </script>
 
@@ -33,7 +40,7 @@ const { arrivedOrLeft, deleteStudent } = studentStore
                 <StudentRow 
                     v-for="student in sortedStudents" 
                     v-bind:key="student.starID"
-                    v-bind:student="student" 
+                    v-bind:studentProp="student" 
                     v-on:delete-student="deleteStudent"
                     v-on:arrived-or-left="arrivedOrLeft">       
                 </StudentRow>

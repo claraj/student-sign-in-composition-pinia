@@ -1,17 +1,21 @@
 <script setup>
 
-import { defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 
 const emit = defineEmits(['delete-student', 'arrived-or-left'])
 
-defineProps({
-    student: Object
+const props = defineProps({
+    studentProp : Object
 })
+
+// Create a new reactive data from the prop
+// ok to modify this because it is not synced with the prop
+const student = ref(props.studentProp)
 
 const confirmThenDeleteStudent = (studentToDelete) => {
     if (confirm(`Delete ${studentToDelete.name}?`)) {
         emit('delete-student', studentToDelete)
-    }
+    } 
 }
 
 const notifyArrivedOrLeft = (studentModified) => {
@@ -22,9 +26,10 @@ const notifyArrivedOrLeft = (studentModified) => {
 
 
 <template>
-    <tr class="align-middle" v-bind:class="{ present: student.present, absent: !student.present }">
 
-<td>{{ student.name }}</td>
+<tr class="align-middle" v-bind:class="{ present: student.present, absent: !student.present }">
+
+    <td>{{ student.name }}</td>
     <td>{{ student.starID }}</td>
     <td> 
         <input type="checkbox" v-model="student.present" v-on:change="notifyArrivedOrLeft(student)">

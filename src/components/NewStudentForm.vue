@@ -6,8 +6,6 @@ import { useStudentStore } from '../stores/StudentStore'
 
 const studentStore = useStudentStore() 
 
-const { addNewStudent } = studentStore
-
 const newStudentName = ref('')
 const newStarID = ref('')
             
@@ -29,7 +27,7 @@ const addStudent = () => {
     if (formErrors.value.length == 0) {
         let student = { name: newStudentName.value, starID: newStarID.value, present: false }
 
-        addNewStudent(student)
+        studentStore.addNewStudent(student)
         newStudentName.value = ''   // clear form input
         newStarID.value = ''  
     }
