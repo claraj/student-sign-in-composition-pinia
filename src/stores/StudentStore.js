@@ -21,7 +21,12 @@ export const useStudentStore = defineStore('students', () => {
     }
 
     function arrivedOrLeft(student) {
-        mostRecentStudent.value = student
+        // Returns -1 if the student is not found
+        const studentToModifyIndex = studentList.value.findIndex(s => s.starID == student.starID)
+        if (studentToModifyIndex != -1) {
+            mostRecentStudent.value = student
+            studentList.value[studentToModifyIndex] = student
+        }
     }
 
     const sortedStudents = computed( () => {

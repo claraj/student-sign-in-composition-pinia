@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 const emit = defineEmits(['delete-student', 'arrived-or-left'])
 
@@ -10,7 +10,8 @@ const props = defineProps({
 
 // Create a new reactive data from the prop
 // ok to modify this because it is not synced with the prop
-const student = ref(props.studentProp)
+// We have to destructure the properties of the studentProp object and build a new object
+const student = ref({...props.studentProp})
 
 const confirmThenDeleteStudent = (studentToDelete) => {
     if (confirm(`Delete ${studentToDelete.name}?`)) {
