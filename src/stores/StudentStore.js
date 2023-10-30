@@ -30,13 +30,23 @@ export const useStudentStore = defineStore('students', () => {
         })
     })
 
+    const studentCount = computed( () => {
+        return studentList.value.length
+    })
+
     return { 
+        // reactive data
         studentList, 
         mostRecentStudent, 
+
+        // functions
         addNewStudent, 
         deleteStudent, 
         arrivedOrLeft, 
-        sortedStudents
+
+        // computed properties
+        sortedStudents,
+        studentCount
     }
 
 })
