@@ -2,13 +2,15 @@
 
 import StudentRow from './StudentRow.vue'
 
-import { storeToRefs } from 'pinia' 
-import { useStudentStore } from '../stores/StudentStore.js'
+import { computed } from 'vue'
 
+import { storeToRefs } from 'pinia' 
+
+import { useStudentStore } from '../stores/StudentStore.js'
 
 const studentStore = useStudentStore()
 
-const { sortedStudents } = storeToRefs(studentStore)
+const { sortedStudents, studentCount } = storeToRefs(studentStore)
 
 const arrivedOrLeft = (student) => {
     studentStore.arrivedOrLeft(student)
@@ -18,12 +20,21 @@ const deleteStudent = (student) => {
     studentStore.deleteStudent(student)
 }
 
+const pluralStudentMessage = computed (() => {
+    if (studentCount.value == 1) {
+        return 'There is 1 student in class.'
+    } else {
+        return `There are ${studentCount.value} students in class.`
+    }
+})
+
 </script>
 
 <template>
 
 <div id="student-list-table" class="card m-2 p-2">
     <h4 class="card-title">Student List</h4>
+    <h5 class="card-subtitle text-muted"> {{ pluralStudentMessage }} </h5>
     <div id="student-table">
         <table class="table">
             <thead>
