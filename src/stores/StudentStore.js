@@ -21,11 +21,7 @@ export const useStudentStore = defineStore('students', () => {
     }
 
     function arrivedOrLeft(student) {
-        const studentToModifyIndex = studentList.value.findIndex(s => s.starID == student.starID)
-        if (studentToModifyIndex != -1) {
-            mostRecentStudent.value = student
-            studentList.value.splice(studentToModifyIndex, 1, student)
-        }
+        mostRecentStudent.value = student
     }
 
     const sortedStudents = computed( () => {
