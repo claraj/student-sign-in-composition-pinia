@@ -12,7 +12,8 @@ const studentStore = useStudentStore()
 
 const { sortedStudents, studentCount } = storeToRefs(studentStore)
 
-const arrivedOrLeft = (student) => {
+const arrivedOrLeft = (student, isStudentPresent) => {
+    student.present = isStudentPresent
     studentStore.arrivedOrLeft(student)
 }
 
@@ -51,7 +52,7 @@ const pluralStudentMessage = computed (() => {
                 <StudentRow 
                     v-for="student in sortedStudents" 
                     v-bind:key="student.starID"
-                    v-bind:studentProp="student" 
+                    v-bind:student="student" 
                     v-on:delete-student="deleteStudent"
                     v-on:arrived-or-left="arrivedOrLeft">       
                 </StudentRow>

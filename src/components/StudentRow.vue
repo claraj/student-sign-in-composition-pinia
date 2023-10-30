@@ -1,44 +1,40 @@
 <script setup>
 
-import { ref, reactive } from 'vue'
-
-const emit = defineEmits(['delete-student', 'arrived-or-left'])
+import { ref } from 'vue'
 
 const props = defineProps({
-    studentProp : Object
+    student: Object
 })
 
-// Create a new reactive data from the prop
-// ok to modify this because it is not synced with the prop
-// We have to destructure the properties of the studentProp object and build a new object
-const student = ref({...props.studentProp})
+const emit = defineEmits(['arrived-or-left', 'delete-student'])
 
-const confirmThenDeleteStudent = (studentToDelete) => {
-    if (confirm(`Delete ${studentToDelete.name}?`)) {
-        emit('delete-student', studentToDelete)
-    } 
+// A new ref to track if this student is present or not 
+const isStudentPresent = ref( props.student.present )
+
+const notifyArrivedOrLeft = () => {
+    emit('arrived-or-left', props.student, isStudentPresent.value) 
 }
 
-const notifyArrivedOrLeft = (studentModified) => {
-    emit('arrived-or-left', studentModified) 
+const confirmThenDeleteStudent = () => {
+    if (confirm(`Delete ${props.student.name}?`)) {
+        emit('delete-student', props.student)
+    } 
 }
 
 </script>
 
-
 <template>
 
 <tr class="align-middle" v-bind:class="{ present: student.present, absent: !student.present }">
-
     <td>{{ student.name }}</td>
     <td>{{ student.starID }}</td>
     <td> 
-        <input type="checkbox" v-model="student.present" v-on:change="notifyArrivedOrLeft(student)">
+        <input type="checkbox" v-model="isStudentPresent" v-on:change="notifyArrivedOrLeft">
         <span class="mx-3" v-if="student.present">Here!</span>
         <span class="mx-3" v-else>Not present</span>
     </td>
     <td>
-        <button class="btn btn-danger" v-on:click="confirmThenDeleteStudent(student)">
+        <button class="btn btn-danger" v-on:click="confirmThenDeleteStudent">
             <i class="bi bi-trash-fill"></i> Delete
         </button>
     </td>
@@ -47,6 +43,7 @@ const notifyArrivedOrLeft = (studentModified) => {
 </template>
 
 <style scoped>
+
 
 .present {
     color: gray;
@@ -58,4 +55,6 @@ const notifyArrivedOrLeft = (studentModified) => {
     font-weight: bold;
 }
 
+
 </style>
+
